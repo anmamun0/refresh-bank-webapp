@@ -10,6 +10,25 @@ from .forms import UserUpdateForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
+def send_transaction_email(user, subject, template):
+        context_user_info = {
+            'user':user, 
+        }
+        body = render_to_string(template,context_user_info)
+
+        email = EmailMultiAlternatives(
+            subject=subject,
+            body='',
+            from_email= 'ReFresh Bank <noreply@example.com>',
+            to=[user.email],
+        )
+        email.attach_alternative(body, "text/html")
+        email.send()
+
+
 class UserRegistrationView(FormView):
     template_name = 'accounts/user_registration.html'
     form_class = UserRegistrationForm
@@ -26,10 +45,13 @@ def user_logout(request):
         logout(request)
     return redirect('home')
 
+from django.core.mail import send_mail
+
 class UserLoginView(LoginView):
     template_name = 'accounts/user_login.html'
 
-    def get_success_url(self):
+    def get_success_url(self): 
+        send_transaction_email(self.request.user,'Login Update','email_templates/login_email.html')
         return reverse_lazy('home')
 
 # RedirectView
@@ -37,7 +59,7 @@ class UserLogoutView(LogoutView):
     # next_page = reverse_lazy('home')
     def get_success_url(self): 
         logout(self.request)
-        return reverse_lazy('home')
+        return reverse_lazy('home') 
     
 
 

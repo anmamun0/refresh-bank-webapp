@@ -6,7 +6,13 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views import View
 from django.http import HttpResponse
 from django.views.generic import CreateView, ListView
-from transactions.constants import DEPOSIT, WITHDRAWAL,LOAN, LOAN_PAID , TRANSFER_RECEIVE , TRANSFER_SEND
+from transactions.constants import (DEPOSIT, 
+                                    WITHDRAWAL,LOAN, 
+                                    LOAN_PAID , 
+                                    TRANSFER_RECEIVE , 
+                                    TRANSFER_SEND,
+                                    send_transaction_email,
+                                    money_transfer_email)
 from datetime import datetime
 from django.db.models import Sum
 from transactions.forms import (
@@ -16,6 +22,10 @@ from transactions.forms import (
     SendMoneyForm,
 )
 from transactions.models import Transaction
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives,send_mail
+
+
 
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_form.html'
@@ -59,11 +69,11 @@ class DepositMoneyView(TransactionCreateMixin):
                 'balance'
             ]
         )
-
         messages.success(
             self.request,
             f'{"{:,.2f}".format(float(amount))}$ was deposited to your account successfully'
         )
+        send_transaction_email(self.request.user,amount,"Deposit Money" ,'mail_transactions/deposite_email.html')
 
         return super().form_valid(form)
 
@@ -88,6 +98,8 @@ class WithdrawMoneyView(TransactionCreateMixin):
             self.request,
             f'Successfully withdrawn {"{:,.2f}".format(float(amount))}$ from your account'
         )
+
+        send_transaction_email(self.request.user,amount,"Withfraw Money" ,'mail_transactions/withdrawal_email.html')
 
         return super().form_valid(form)
 
@@ -164,6 +176,8 @@ class PayLoanView(LoginRequiredMixin, View):
                 loan.loan_approved = True
                 loan.transaction_type = LOAN_PAID
                 loan.save()
+                send_transaction_email(self.request.user,loan.amount,"Payed Loan Confirm" ,'mail_transactions/loan_email.html')
+
                 return redirect('loan_list')
             else:
                 messages.error(
@@ -211,13 +225,17 @@ class SendMoneyView(TransactionCreateMixin):
         send_account.save(update_fields=['balance'])
         receive_account.save(update_fields=['balance']) 
        
-
-        Transaction.objects.create(
+        
+        transaction = Transaction.objects.create(
             account=receive_account,
             amount=amount,
             balance_after_transaction = receive_account.balance,
             transaction_type=TRANSFER_RECEIVE
         ) 
+
+        
+        money_transfer_email(send_account,receive_account,transaction,'mail_transactions/transfer.html')
+
         messages.success(
             self.request,
             f'Successfully Transfer {"{:,.2f}".format(float(amount))}$ from {send_account.account_no} to {to_account}'

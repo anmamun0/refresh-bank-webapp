@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User 
+# from bank_info.models import Bank
 # Create your models here.
-
 
 from .constants import ACCOUNT_TYPE,GENDER_TYPE
 
@@ -14,6 +14,8 @@ class UserBankAccount(models.Model):
     gender = models.CharField(max_length=10,choices=GENDER_TYPE)
     initial_deposite_date = models.DateField(auto_now_add=True)
     balance = models.DecimalField(default=0,max_digits=12,decimal_places=2)
+
+    # bank = models.ForeignKey(Bank, default=Bank.objects.first(), on_delete=models.CASCADE)
     # is_bankrupt = models.BooleanField(default=False) 
 
 

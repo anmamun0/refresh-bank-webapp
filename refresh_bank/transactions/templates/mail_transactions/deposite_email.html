@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0;">
+    <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <!-- Header -->
+        <div style="background-color: #4a90e2; color: #ffffff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
+            <h1 style="margin: 0; font-size: 24px;">Deposit Confirmation</h1>
+        </div>
+
+        <!-- Body -->
+        <div style="color: #333333; margin-top: 20px;">
+            <h3 style="margin: 0; font-size: 20px;">Hello {{ user.first_name }} {{ user.last_name }},</h3>
+            <p style="margin: 16px 0; line-height: 1.5;">Your deposit request of ${{ amount }} has been successfully completed. After the deposit, your total account balance is ${{ user.account.balance }}.</p>
+            <p style="margin: 16px 0; line-height: 1.5;">Thank you for banking with us.</p>
+            <p style="margin: 16px 0; line-height: 1.5;">Sincerely,<br>
+            Mamar Bank</p>
+        </div>
+
+        <!-- Footer -->
+        <div style="background-color: #f4f4f4; text-align: center; padding: 10px; font-size: 12px; color: #888888;">
+            <p style="margin: 0;">&copy; 2025 Mamar Bank. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -13,3 +13,41 @@ TRANSACTION_TYPE = (
     (TRANSFER_RECEIVE,'Transfer Receive'),
     (TRANSFER_SEND,'Transfer Send'),
 )
+
+
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+
+def send_transaction_email(user, amount, subject, template):
+        context_user_info = {
+            'user':user,
+            'amount':amount
+        }
+        body = render_to_string(template,context_user_info)
+
+        email = EmailMultiAlternatives(
+            subject=subject,
+            body='',
+            from_email= 'ReFresh Bank <noreply@example.com>',
+            to=[user.email],
+        )
+        email.attach_alternative(body, "text/html")
+        email.send()
+
+def money_transfer_email(send_account, receive_account, transaction, template):
+        context = {
+            'sender':send_account,
+            'recipient':receive_account,
+            'transaction':transaction 
+        }
+         
+        body = render_to_string(template,context)
+
+        email = EmailMultiAlternatives(
+            subject="Transfar Money",
+            body='',
+            from_email= 'ReFresh Bank <noreply@example.com>',
+            to=[send_account.user.email],
+        )
+        email.attach_alternative(body, "text/html")
+        email.send()
