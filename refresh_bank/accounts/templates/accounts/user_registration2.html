@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50 py-12">
+{% load form_filters %}
+
+    <div class="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="px-32"> 
+            <!-- Right Side: Form -->
+            <div class="p-8 md:p-12">
+                <h1 class="text-3xl font-bold text-gray-800 mb-6">Create Your Account</h1>
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+                            <p class="font-bold">Error!</p>
+                            <p>{{ error }}</p>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form action="" method="post" class="space-y-6">
+                    {% csrf_token %}
+
+                    {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field.errors }}
+                        {{ hidden_field }}
+                    {% endfor %}
+
+                    <!-- Username Field -->
+                    <div class="mb-6">
+                        <label for="id_username" class="block text-sm font-medium text-gray-700  ">Username</label>
+                        <div class="mt-1">
+                            {{ form.username|add_class:"w-full px-4 py-2 border bg-gray-100 focus:bg-white rounded-lg focus:outline-none focus:ring-0  " }}
+                        </div>
+                        {% if form.username.errors %}
+                            <p class="text-red-600 text-sm mt-1">{{ form.username.errors|join:", " }}</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Password Field -->
+                        <div>
+                            <label for="id_password1" class="block text-sm font-medium text-gray-700">Password</label>
+                            <div class="mt-1">
+                                {{ form.password1|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0 " }}
+                            </div>
+                            {% if form.password1.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.password1.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Confirm Password Field -->
+                        <div>
+                            <label for="id_password2" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                            <div class="mt-1">
+                                {{ form.password2|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0" }}
+                            </div>
+                            {% if form.password2.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.password2.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- First Name -->
+                        <div>
+                            <label for="id_first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                            <div class="mt-1">
+                                {{ form.first_name|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.first_name.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.first_name.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Last Name -->
+                        <div>
+                            <label for="id_last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                            <div class="mt-1">
+                                {{ form.last_name|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.last_name.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.last_name.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Email -->
+                        <div>
+                            <label for="id_email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <div class="mt-1">
+                                {{ form.email|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.email.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.email.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Account Type -->
+                        <div>
+                            <label for="id_account_type" class="block text-sm font-medium text-gray-700">Account Type</label>
+                            <div class="mt-1">
+                                {{ form.account_type|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.account_type.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.account_type.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Gender -->
+                        <div>
+                            <label for="id_gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                            <div class="mt-1">
+                                {{ form.gender|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.gender.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.gender.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Birth Date -->
+                        <div>
+                            <label for="id_birth_date" class="block text-sm font-medium text-gray-700">Birth Date</label>
+                            <div class="mt-1">
+                                {{ form.birth_date|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.birth_date.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.birth_date.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Street Address -->
+                        <div>
+                            <label for="id_street_address" class="block text-sm font-medium text-gray-700">Street Address</label>
+                            <div class="mt-1">
+                                {{ form.street_address|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.street_address.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.street_address.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- City -->
+                        <div>
+                            <label for="id_city" class="block text-sm font-medium text-gray-700">City</label>
+                            <div class="mt-1">
+                                {{ form.city|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.city.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.city.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Postal Code -->
+                        <div>
+                            <label for="id_postal_code" class="block text-sm font-medium text-gray-700">Postal Code</label>
+                            <div class="mt-1">
+                                {{ form.postal_code|add_class:"w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300" }}
+                            </div>
+                            {% if form.postal_code.errors %}
+                                <p class="text-red-600 text-sm mt-1">{{ form.postal_code.errors|join:", " }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mt-6">
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300">Register</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

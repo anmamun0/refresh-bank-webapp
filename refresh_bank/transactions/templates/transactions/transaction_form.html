@@ -1,0 +1,55 @@
+{% extends 'base.html' %} 
+
+{% block head_title %}{{ title }}{% endblock %} 
+
+{% block content %}
+
+<div class="h-screen w-full flex items-center justify-center ">
+    <div class="bg-white w-full sm:w-4/12 lg:w-4/12 xl:w-4/12 rounded-lg shadow-lg p-8">
+
+        {% if title == 'Request For Loan' %}
+            <div>
+                <a class="font-semibold text-blue-600 hover:text-blue-800 text-center block mb-6" href="{% url 'loan_list' %}">
+                    &larr; View All Loan List
+                </a>
+            </div>
+        {% endif %}
+
+        <h1 class="font-semibold text-3xl text-center mb-6">{{ title }}</h1>
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            {% if title == 'Transfer Money'%}
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-semibold mb-2" for="to_account">
+                    Receiver ID
+                </label>
+                <input class="shadow-md appearance-none border rounded-md w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" name="to_account" id="to_account" type="number" required placeholder="Enter Recever ID" />
+            </div>
+            {% endif %}
+
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-semibold mb-2" for="amount">
+                    Loan Amount
+                </label>
+                <input class="shadow-md appearance-none border rounded-md w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500" name="amount" id="amount" type="number" required placeholder="Enter Amount" />
+            </div>
+
+            {% if form.amount.errors %}
+                {% for error in form.amount.errors %}
+                    <p class="text-red-500 text-sm italic">{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+
+            <div class="flex justify-center mt-4">
+                <button type="submit" class="bg-blue-900 text-white hover:bg-blue-700 focus:outline-none font-bold py-3 px-6 rounded-lg transition-all duration-200 ease-in-out transform hover:scale-105">
+                    Submit
+                </button>
+            </div>
+        </form>
+        
+    </div>
+</div>
+
+{% endblock %}
