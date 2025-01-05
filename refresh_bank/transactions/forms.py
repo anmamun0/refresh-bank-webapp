@@ -69,6 +69,8 @@ class LoanRequestForm(TransactionForm):
     
 
 from accounts.models import UserBankAccount 
+from django.contrib import messages
+from django.shortcuts import redirect
 
 class SendMoneyForm(TransactionForm):
     class Meta:
@@ -77,12 +79,11 @@ class SendMoneyForm(TransactionForm):
             'amount',
             'transaction_type',
             'to_account'
-        ]
+        ] 
     def clean_to_account(self):
         to_account = self.cleaned_data.get('to_account')
         if UserBankAccount.objects.filter(account_no=to_account).exists():  
-            return to_account
-        
+            return to_account 
         raise forms.ValidationError("This account is not valid! ") 
 
         

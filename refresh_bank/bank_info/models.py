@@ -16,8 +16,8 @@ class Bank(models.Model):
     contact = models.CharField(max_length=20, null=True, blank=True)  # Contact number
     email = models.EmailField(null=True, blank=True)  # Email address
     total_money = models.DecimalField(max_digits=15, decimal_places=2, default=0.00)
-    
-    opening_date = models.DateField(null=True, blank=True)  # Opening date of the bank
+
+    opening_date = models.DateField(auto_now_add=True,null=True,blank=True)  # Opening date of the bank
     status = models.CharField(max_length=30, choices=STATUS_CHOICE, default='Active')  # Status of the bank
     
       

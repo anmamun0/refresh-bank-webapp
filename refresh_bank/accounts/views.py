@@ -9,16 +9,12 @@ from .forms import UserUpdateForm
 
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
-def send_transaction_email(user, subject, template):
-        context_user_info = {
-            'user':user, 
-        }
-        body = render_to_string(template,context_user_info)
-
+def send_email(user,subject,body): 
         email = EmailMultiAlternatives(
             subject=subject,
             body='',
@@ -51,11 +47,16 @@ class UserLoginView(LoginView):
     template_name = 'accounts/user_login.html'
 
     def get_success_url(self): 
-        send_transaction_email(self.request.user,'Login Update','email_templates/login_email.html')
+        context = {
+            'user':self.request.user, 
+        }
+        body = render_to_string('email_templates/login_email.html',context)
+        send_email(self.request.user,'Login Success',body)
+
         return reverse_lazy('home')
 
 # RedirectView
-class UserLogoutView(LogoutView):
+class UserLogoutView(LoginRequiredMixin,LogoutView):
     # next_page = reverse_lazy('home')
     def get_success_url(self): 
         logout(self.request)
@@ -64,7 +65,7 @@ class UserLogoutView(LogoutView):
 
 
 
-class UserBankAccountUpdateView(View):
+class UserBankAccountUpdateView(LoginRequiredMixin,View):
     template_name = 'accounts/profile.html'
 
     def get(self, request):
@@ -80,6 +81,12 @@ class UserBankAccountUpdateView(View):
         if password_form.is_valid():
             password_form.save() 
             update_session_auth_hash(request,password_form.user)
+
+            context = {
+                'user':self.request.user
+            }
+            body = render_to_string('email_templates/password_update_email.html',context)
+            send_email(self.request.user,'Password Changed Update',body)
 
             return redirect('profile')  # Redirect to the user's profile page
 

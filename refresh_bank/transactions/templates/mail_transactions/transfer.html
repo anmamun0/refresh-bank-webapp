@@ -5,11 +5,21 @@
     <!-- Transaction Email -->
     <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
         <div style="background-color: #4a90e2; color: #ffffff; padding: 20px; text-align: center; border-radius: 8px 8px 0 0;">
-            <h1 style="margin: 0; font-size: 24px;">Money Transfer Confirmation</h1>
+            {% if title == "Send" %}
+                <h1 style="margin: 0; font-size: 24px;">Money Transfer Confirmation</h1>
+            {% else %}
+                <h1 style="margin: 0; font-size: 24px;">You Received Money from {{sender.user.username }}</h1>
+            {% endif %}
         </div>
         
         <div style="color: #333333; margin-top: 20px;">
-            <h3 style="margin: 0; font-size: 20px;">Hello {{ sender.user.first_name }} {{ sender.user.last_name }},</h3>
+
+            {% if title == 'Send' %}
+                <h3 style="margin: 0; font-size: 20px;">Hello {{ sender.user.first_name }} {{ sender.user.last_name }},</h3>
+            {% else %}
+                <h3 style="margin: 0; font-size: 20px;">Hello {{ recipient.user.first_name }} {{ recipient.user.last_name }},</h3>
+            {% endif %}
+
             <p style="margin: 16px 0; line-height: 1.5;">We are pleased to inform you that a money transfer of ${{ transaction.amount }} has been successfully completed.</p>
             <p style="margin: 16px 0; line-height: 1.5;">Here are the details of your transaction:</p>
             <ul style="margin: 16px 0; padding-left: 20px;">
@@ -19,7 +29,13 @@
                 <li><strong>Transaction ID:</strong> {{ transaction.id }}</li>
                 <li><strong>Date:</strong> {{ transaction.timestamp }}</li>
             </ul>
-            <p style="margin: 16px 0; line-height: 1.5;">Your updated account balance is: ${{ sender.balance }}.</p>
+
+            {% if title == 'Send' %} 
+                <p style="margin: 16px 0; line-height: 1.5;">Your updated account balance is: ${{ sender.balance }}.</p>
+            {% else %}
+                <p style="margin: 16px 0; line-height: 1.5;">Your updated account balance is: ${{ recipient.balance }}.</p>
+            {% endif %}
+
             <p style="margin: 16px 0; line-height: 1.5;">If you did not authorize this transaction, please contact us immediately.</p>
             <p style="margin: 16px 0; line-height: 1.5;">Thank you for banking with us.</p>
             <p style="margin: 16px 0; line-height: 1.5;">Sincerely,<br>ReFresh Bank</p>

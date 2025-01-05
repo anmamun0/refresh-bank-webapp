@@ -24,14 +24,23 @@ from transactions.forms import (
 from transactions.models import Transaction
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives,send_mail
+from bank_info.models import Bank
 
-
+bank = Bank.objects.first()
 
 class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     template_name = 'transactions/transaction_form.html'
     model = Transaction
     title = ''
     success_url = reverse_lazy('transaction_report')
+
+    def dispatch(self, request, *args, **kwargs):
+        bank = Bank.objects.first()
+        if not bank.status or bank.status != 'Active':
+            messages.error(request, "Transactions are currently disabled because the bank is Bankrupt.")
+            return redirect('home')
+        
+        return super().dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -64,6 +73,12 @@ class DepositMoneyView(TransactionCreateMixin):
         #     now = timezone.now()
         #     account.initial_deposit_date = now
         account.balance += amount # amount = 200, tar ager balance = 0 taka new balance = 0+200 = 200
+        bank.total_money += amount
+
+        bank.save(
+            update_fields=['total_money']
+        )
+
         account.save(
             update_fields=[
                 'balance'
@@ -90,8 +105,11 @@ class WithdrawMoneyView(TransactionCreateMixin):
         amount = form.cleaned_data.get('amount')
 
         self.request.user.account.balance -= form.cleaned_data.get('amount')
-        # balance = 300
-        # amount = 5000
+        bank.total_money -= amount
+
+        bank.save(
+            update_fields=['total_money']
+        ) 
         self.request.user.account.save(update_fields=['balance'])
 
         messages.success(
@@ -202,6 +220,7 @@ class LoanListView(LoginRequiredMixin,ListView):
 
 from decimal import Decimal
 from accounts.models import UserBankAccount
+
 class SendMoneyView(TransactionCreateMixin):
     title = "Transfer Money"
     form_class = SendMoneyForm
@@ -232,9 +251,8 @@ class SendMoneyView(TransactionCreateMixin):
             balance_after_transaction = receive_account.balance,
             transaction_type=TRANSFER_RECEIVE
         ) 
-
-        
-        money_transfer_email(send_account,receive_account,transaction,'mail_transactions/transfer.html')
+        money_transfer_email("Send", send_account, receive_account,transaction,'mail_transactions/transfer.html')
+        money_transfer_email("Receive", send_account, receive_account,transaction,'mail_transactions/transfer.html')
 
         messages.success(
             self.request,
@@ -242,5 +260,8 @@ class SendMoneyView(TransactionCreateMixin):
         )
 
         return super().form_valid(form)
-
+    
+    def form_invalid(self, form):
+        messages.error(self.request,"Transer invalid .")
+        return super().form_invalid(form)
     

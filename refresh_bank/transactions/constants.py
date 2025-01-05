@@ -34,12 +34,16 @@ def send_transaction_email(user, amount, subject, template):
         email.attach_alternative(body, "text/html")
         email.send()
 
-def money_transfer_email(send_account, receive_account, transaction, template):
+def money_transfer_email(title,send_account, receive_account, transaction, template):
         context = {
             'sender':send_account,
             'recipient':receive_account,
-            'transaction':transaction 
+            'transaction':transaction,
+            'title' : title
         }
+        email = send_account.user.email
+        if context['title'] != 'Send':
+                email = receive_account.user.email
          
         body = render_to_string(template,context)
 
@@ -47,7 +51,7 @@ def money_transfer_email(send_account, receive_account, transaction, template):
             subject="Transfar Money",
             body='',
             from_email= 'ReFresh Bank <noreply@example.com>',
-            to=[send_account.user.email],
+            to=[email],
         )
         email.attach_alternative(body, "text/html")
         email.send()
