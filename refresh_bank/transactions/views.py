@@ -233,7 +233,7 @@ class SendMoneyView(TransactionCreateMixin):
     
     def form_valid(self, form):
         to_account = form.cleaned_data.get('to_account')
-        amount = Decimal(form.cleaned_data.get('amount'))
+        amount = Decimal(form.cleaned_data.get('amount')) 
 
         send_account = self.request.user.account
         send_account.balance -= amount

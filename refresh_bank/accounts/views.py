@@ -45,7 +45,6 @@ from django.core.mail import send_mail
 
 class UserLoginView(LoginView):
     template_name = 'accounts/user_login.html'
-
     def get_success_url(self): 
         context = {
             'user':self.request.user, 
