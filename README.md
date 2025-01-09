@@ -42,7 +42,7 @@ Here are some key pages of the application:
 
 | **Home Page**               | **User Dashboard**             | **Admin Dashboard**             |
 |------------------------------|---------------------------------|----------------------------------|
-| ![Home Page](https://github.com/anmamun0/refresh-bank-webapp/project_photos/un_authenticated_home-page.png) | ![User Dashboard](https://github.com/anmamun0/refresh-bank-webapp/project_photos/authenticated_home-page.png) | ![Admin Dashboard](https://github.com/anmamun0/refresh-bank-webapp/project_photos/transactions-report-page.png) |
+| ![Home Page](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/un_authenticated_home-page.png) | ![User Dashboard](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/authenticated_home-page.png) | ![Admin Dashboard](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/transactions-report-page.png) |
  
 
 ---
