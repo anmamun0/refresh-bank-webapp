@@ -16,11 +16,17 @@
 </head>
 
 <body class="bg-gray-400">
-    {% include 'navbar.html' %}
-
+    <header>
+        <div>{% include 'navbar.html' %}</div>
+        <div>{% include 'bank_error_messages.html' %}</div>
+    </header>
     {% block body %}
+
     <div class="lg:container lg:mx-auto" id="main">
+
         {% include 'messages.html' %}
+
+
         {% block content %}
 
         {% endblock %}

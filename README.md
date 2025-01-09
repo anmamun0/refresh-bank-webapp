@@ -40,29 +40,17 @@
 
 Here are some key pages of the application:  
 
-| **Home Page**               | **User Dashboard**             | **Admin Dashboard**             |
-|------------------------------|---------------------------------|----------------------------------|
-| ![Home Page](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/un_authenticated_home-page.png) | ![User Dashboard](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/authenticated_home-page.png) | ![Admin Dashboard](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/transactions-report-page.png) |
+| **Public Home Page Page**               | **User Home Page**             | 
+|------------------------------|---------------------------------| 
+| ![Home Page](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/un_authenticated_home-page.png) | ![User Dashboard](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/authenticated_home-page.PNG) |
+
  
-
----
- 
-## 📸 Screenshots  
-
-### Home Page  
-![Home Page](https://github.com/anmamun0/refresh-bank-webapp/project_photos/un_authenticated_home-page.png)
-
-### User Dashboard  
-![User Dashboard](https://github.com/anmamun0/refresh-bank-webapp/project_photos/authenticated_home-page.png)
-
-### Admin Dashboard  
-![Admin Dashboard](https://github.com/anmamun0/refresh-bank-webapp/project_photos/transactions-report-page.png)
+| **Transactions Report Page**               | **User Profile Edit Page**             | 
+|------------------------------|---------------------------------| 
+| ![Home Page](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/transactions-report-page.png) | ![User Dashboard](https://github.com/anmamun0/refresh-bank-webapp/blob/main/project_photos/profile-edit-page.png) |
 
 
-
-
----
-
+--- 
 
 
 ## 📂 Project Structure  

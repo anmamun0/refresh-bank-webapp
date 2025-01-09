@@ -37,7 +37,6 @@ class TransactionCreateMixin(LoginRequiredMixin, CreateView):
     def dispatch(self, request, *args, **kwargs):
         bank = Bank.objects.first()
         if not bank.status or bank.status != 'Active':
-            messages.error(request, "Transactions are currently disabled because the bank is Bankrupt.")
             return redirect('home')
         
         return super().dispatch(request, *args, **kwargs)
